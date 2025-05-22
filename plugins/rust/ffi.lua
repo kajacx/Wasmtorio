@@ -31,6 +31,9 @@ local function cast(caster, value)
     return value
 end
 
+local function copy()
+end
+
 return {
     typeof = typeof,
     new = new,
@@ -41,5 +44,6 @@ return {
         realloc = identity,
         free = identity,
     },
-    gc = identity
+    gc = identity,
+    copy = copy,
 }

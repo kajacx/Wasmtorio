@@ -820,27 +820,30 @@ return module
 end)()
 local add_i32 = rt.add.i32
 local table_new = require("table.new")
-local FUNC_LIST = table_new(0, 1)
+local FUNC_LIST = table_new(1, 1)
 local TABLE_LIST = table_new(0, 1)
 local MEMORY_LIST = table_new(0, 1)
 local GLOBAL_LIST = table_new(2, 1)
-FUNC_LIST[0] = --[[ add_five_i32 ]] function(loc_0)
+FUNC_LIST[1] = --[[ add_five_i32 ]] function(loc_0)
 	local reg_0
+	FUNC_LIST[0](1048576, 16)
 	reg_0 = add_i32(loc_0, 5)
 	return reg_0
 end
 local function run_init_code()
 	TABLE_LIST[0] = { min = 1, max = 1, data = {} }
-	MEMORY_LIST[0] = rt.allocator.new(16, 65535)
+	MEMORY_LIST[0] = rt.allocator.new(17, 65535)
 	GLOBAL_LIST[0] = { value = 1048576 }
-	GLOBAL_LIST[1] = { value = 1048576 }
-	GLOBAL_LIST[2] = { value = 1048576 }
+	GLOBAL_LIST[1] = { value = 1048592 }
+	GLOBAL_LIST[2] = { value = 1048592 }
+	rt.store.string(MEMORY_LIST[0], 1048576,"Hello from Rust!")
 end
 return function(wasm)
+	FUNC_LIST[0] = wasm["wasmtorio_game_script"].func_list["print"]
 	run_init_code()
 	return {
 		func_list = {
-			["add_five_i32"] = FUNC_LIST[0],
+			["add_five_i32"] = FUNC_LIST[1],
 		},
 		table_list = {
 		},

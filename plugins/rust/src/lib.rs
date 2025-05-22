@@ -1,5 +1,11 @@
+mod wasmtorio_api;
+mod wasmtorio_helpers;
+
+use wasmtorio_api::Script;
+
 #[no_mangle]
 pub fn add_five_i32(number: i32) -> i32 {
+    Script::print("Hello from Rust!");
     number.wrapping_add(5)
 }
 
@@ -17,3 +23,8 @@ pub fn add_five_i32(number: i32) -> i32 {
 // pub fn add_five_f64(number: f64) -> f64 {
 //     number + 5.0
 // }
+
+#[link(wasm_import_module = "wasmtorio_game_script")]
+extern "C" {
+    fn print(message_start: i32, message_length: i32);
+}
