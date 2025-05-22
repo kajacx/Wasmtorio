@@ -5,7 +5,7 @@ use wasmtorio_api::Script;
 
 #[no_mangle]
 pub fn add_five_i32(number: i32) -> i32 {
-    Script::print("Hello from Rust!");
+    Script::print("Hello from awesome Rust hell yea!");
     number.wrapping_add(5)
 }
 

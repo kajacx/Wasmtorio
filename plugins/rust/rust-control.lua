@@ -826,7 +826,7 @@ local MEMORY_LIST = table_new(0, 1)
 local GLOBAL_LIST = table_new(2, 1)
 FUNC_LIST[1] = --[[ add_five_i32 ]] function(loc_0)
 	local reg_0
-	FUNC_LIST[0](1048576, 16)
+	FUNC_LIST[0](1048576, 33)
 	reg_0 = add_i32(loc_0, 5)
 	return reg_0
 end
@@ -834,9 +834,9 @@ local function run_init_code()
 	TABLE_LIST[0] = { min = 1, max = 1, data = {} }
 	MEMORY_LIST[0] = rt.allocator.new(17, 65535)
 	GLOBAL_LIST[0] = { value = 1048576 }
-	GLOBAL_LIST[1] = { value = 1048592 }
-	GLOBAL_LIST[2] = { value = 1048592 }
-	rt.store.string(MEMORY_LIST[0], 1048576,"Hello from Rust!")
+	GLOBAL_LIST[1] = { value = 1048609 }
+	GLOBAL_LIST[2] = { value = 1048624 }
+	rt.store.string(MEMORY_LIST[0], 1048576,"Hello from awesome Rust hell yea!")
 end
 return function(wasm)
 	FUNC_LIST[0] = wasm["wasmtorio_game_script"].func_list["print"]

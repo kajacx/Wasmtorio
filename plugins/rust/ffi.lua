@@ -22,7 +22,9 @@ local function typeof(val)
 end
 
 local function new(arg)
-    return {}
+    return {
+        data = 0,
+    }
 end
 
 local function nop() end
