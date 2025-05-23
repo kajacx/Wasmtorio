@@ -7,4 +7,5 @@ return {
     lshift = identity,
     rshift = identity,
     bnot = identity,
+    band = identity,
 }

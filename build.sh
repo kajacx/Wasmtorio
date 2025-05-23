@@ -8,7 +8,10 @@ cargo build --target=wasm32-unknown-unknown --release
 wasm2wat target/wasm32-unknown-unknown/debug/wasmtorio_rust_plugin.wasm -o target/wasm32-unknown-unknown/debug/wasmtorio_rust_plugin.wat
 wasm2wat target/wasm32-unknown-unknown/release/wasmtorio_rust_plugin.wasm -o target/wasm32-unknown-unknown/release/wasmtorio_rust_plugin.wat
 
-cargo run --manifest-path /e/Programming/Rust/Wasynth/codegen/luajit/Cargo.toml target/wasm32-unknown-unknown/release/wasmtorio_rust_plugin.wasm > rust-control.lua
+# cargo run --manifest-path /e/Programming/Rust/Wasynth/codegen/luajit/Cargo.toml target/wasm32-unknown-unknown/debug/wasmtorio_rust_plugin.wasm > rust-control.lua
+cargo run --manifest-path /e/Programming/Rust/Wasynth/Cargo.toml luajit target/wasm32-unknown-unknown/debug/wasmtorio_rust_plugin.wasm > rust-control.lua
+
+cp /e/Programming/Rust/Wasynth/runtime/luajit.lua ./luajit.lua
 
 cp rust-control.lua rust-control.original.lua
 ./massage.sh rust-control.lua

@@ -4,7 +4,14 @@ local function identity(x)
     return x
 end
 
+local function memory_accessor_constructor(address)
+    return
+end
+
 local function typeof(val)
+    if val == "int32_t" then
+        return identity
+    end
     if val == "uint32_t" then
         return identity
     end
@@ -18,7 +25,7 @@ local function typeof(val)
         return identity
     end
     if val == "union Any *" then
-        return identity
+        return memory_accessor_constructor
     end
     error("unknown typeof value: " .. val)
 end
