@@ -1,6 +1,3 @@
-local bit = require("bit")
-function table_move()
-end
 local rt = (function()
 local module = {}
 

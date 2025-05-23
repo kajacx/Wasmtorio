@@ -1,3 +1,5 @@
+local MEMORY = {}
+
 local function identity(x)
     return x
 end
@@ -33,7 +35,8 @@ local function cast(caster, value)
     return value
 end
 
-local function copy()
+local function copy(start, data, len)
+
 end
 
 return {

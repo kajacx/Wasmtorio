@@ -18,4 +18,5 @@ script.on_event(defines.events.on_player_selected_area, function(event)
         "Control.lua start, ANSWER: " .. add_five_i32(37),
         { skip = defines.print_skip.never }
     )
+    -- game.print(string.pack)
 end)
