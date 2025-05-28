@@ -7,7 +7,7 @@ use wasmtorio_api::Script;
 pub fn add_five_i32(number: i32) -> i32 {
     // let text = format!("Argument was {number} and it is awesome.");
     let text = "Hello!";
-    let byte = text.as_bytes()[2] as i32;
+    let byte = text.as_bytes()[number as usize] as i32;
     Script::print(text);
     number + byte
 }
