@@ -916,6 +916,7 @@ local bor_i32 = bit.bor
 local bxor_i32 = bit.bxor
 local div_u32 = rt.div.u32
 local div_u64 = rt.div.u64
+local extend_i64_u32 = rt.extend.i64_u32
 local ge_u32 = rt.ge.u32
 local ge_u64 = rt.ge.u64
 local gt_u32 = rt.gt.u32
@@ -930,6 +931,7 @@ local load_i64_u32 = rt.load.i64_u32
 local lt_u32 = rt.lt.u32
 local mul_i32 = rt.mul.i32
 local shl_i32 = bit.lshift
+local shr_i32 = bit.arshift
 local shr_u32 = bit.rshift
 local store_i32 = rt.store.i32
 local store_i32_n16 = rt.store.i32_n16
@@ -939,42 +941,68 @@ local sub_i32 = rt.sub.i32
 local wrap_i32_i64 = rt.wrap.i32_i64
 local memory_at_0
 local table_new = require("table.new")
-local FUNC_LIST = table_new(53, 1)
+local FUNC_LIST = table_new(70, 1)
 local TABLE_LIST = table_new(0, 1)
 local MEMORY_LIST = table_new(0, 1)
 local GLOBAL_LIST = table_new(2, 1)
 FUNC_LIST[1] = --[[ add_five_i32 ]] function(loc_0)
+	local loc_1 = 0
+	local loc_2 = 0
+	local loc_3 = 0
+	local loc_4 = 0
 	local reg_0
-	if gt_u32(loc_0, 5) then
+	loc_1 = sub_i32(GLOBAL_LIST[0].value, 48)
+	GLOBAL_LIST[0].value = loc_1
+	store_i32(memory_at_0, loc_1, loc_0)
+	store_i32(memory_at_0, loc_1 + 20, 2)
+	store_i32(memory_at_0, loc_1 + 16, 1048608)
+	store_i64(memory_at_0, loc_1 + 28, 1)
+	store_i32(memory_at_0, loc_1 + 44, 1)
+	store_i32(memory_at_0, loc_1 + 24, add_i32(loc_1, 40))
+	store_i32(memory_at_0, loc_1 + 40, loc_1)
+	FUNC_LIST[46](add_i32(loc_1, 4), add_i32(loc_1, 16))
+	loc_2 = load_i32(memory_at_0, loc_1)
+	loc_3 = load_i32(memory_at_0, loc_1 + 12)
+	if ge_u32(loc_2, loc_3) then
 		goto continue_at_1
 	end
-	FUNC_LIST[0](1048576, 6)
-	reg_0 = add_i32(load_i32_u8(memory_at_0, add_i32(loc_0, 1048576)), loc_0)
+	loc_0 = load_i32(memory_at_0, loc_1 + 4)
+	loc_4 = load_i32(memory_at_0, loc_1 + 8)
+	loc_2 = load_i32_u8(memory_at_0, add_i32(loc_4, loc_2))
+	FUNC_LIST[0](loc_4, loc_3)
+	loc_3 = load_i32(memory_at_0, loc_1)
+	if loc_0 == 0 then
+		goto continue_at_2
+	end
+	FUNC_LIST[11](1049460, loc_4, 1, loc_0)
+	::continue_at_2::
+	GLOBAL_LIST[0].value = add_i32(loc_1, 48)
+	reg_0 = add_i32(loc_3, loc_2)
 	goto continue_at_0
 	::continue_at_1::
-	FUNC_LIST[42](loc_0, 6, 1048592)
+	FUNC_LIST[53](loc_2, loc_3, 1048636)
 	error("out of code bounds")
 	::continue_at_0::
 	return reg_0
 end
 FUNC_LIST[2] = --[[ __rust_alloc ]] function(loc_0, loc_1)
 	local reg_0
-	reg_0 = FUNC_LIST[10](1049256, loc_1, loc_0)
+	reg_0 = FUNC_LIST[10](1049460, loc_1, loc_0)
 	return reg_0
 end
 FUNC_LIST[3] = --[[ __rust_dealloc ]] function(loc_0, loc_1, loc_2)
-	FUNC_LIST[11](1049256, loc_0, loc_2, loc_1)
+	FUNC_LIST[11](1049460, loc_0, loc_2, loc_1)
 end
 FUNC_LIST[4] = --[[ __rust_realloc ]] function(loc_0, loc_1, loc_2, loc_3)
 	local loc_4 = 0
 	local reg_0
-	reg_0 = FUNC_LIST[10](1049256, loc_2, loc_3)
+	reg_0 = FUNC_LIST[10](1049460, loc_2, loc_3)
 	loc_4 = reg_0
 	if loc_4 == 0 then
 		goto continue_at_1
 	end
-	reg_0 = FUNC_LIST[53](loc_4, loc_0, (lt_u32(loc_1, loc_3) and loc_1 or loc_3))
-	FUNC_LIST[11](1049256, loc_0, loc_2, loc_1)
+	reg_0 = FUNC_LIST[70](loc_4, loc_0, (lt_u32(loc_1, loc_3) and loc_1 or loc_3))
+	FUNC_LIST[11](1049460, loc_0, loc_2, loc_1)
 	::continue_at_1::
 	reg_0 = loc_4
 	return reg_0
@@ -997,7 +1025,7 @@ FUNC_LIST[6] = --[[ _ZN88_$LT$wee_alloc..size_classes..SizeClassAllocPolicy$u20$
 	loc_1 = add_i32(loc_2, 2)
 	loc_1 = mul_i32(loc_1, loc_1)
 	loc_2 = (gt_u32(loc_1, 2048) and loc_1 or 2048)
-	reg_0 = FUNC_LIST[8](loc_2, 4, add_i32(loc_4, 12), 1048608, 1)
+	reg_0 = FUNC_LIST[8](loc_2, 4, add_i32(loc_4, 12), 1048652, 2)
 	loc_1 = reg_0
 	if loc_1 == 0 then
 		goto continue_at_3
@@ -1021,7 +1049,7 @@ FUNC_LIST[6] = --[[ _ZN88_$LT$wee_alloc..size_classes..SizeClassAllocPolicy$u20$
 	store_i32(memory_at_0, loc_1 + 8, load_i32(memory_at_0, loc_4 + 12))
 	store_i32(memory_at_0, loc_1, bor_i32(add_i32(loc_1, band_i32(loc_7, -65536)), 2))
 	store_i32(memory_at_0, loc_4 + 12, loc_1)
-	reg_0 = FUNC_LIST[8](loc_2, 4, add_i32(loc_4, 12), 1048608, 1)
+	reg_0 = FUNC_LIST[8](loc_2, 4, add_i32(loc_4, 12), 1048652, 2)
 	loc_1 = reg_0
 	store_i32(memory_at_0, loc_5, load_i32(memory_at_0, loc_4 + 12))
 	if loc_1 ~= 0 then
@@ -1216,7 +1244,7 @@ FUNC_LIST[10] = --[[ _ZN72_$LT$wee_alloc..WeeAlloc$u20$as$u20$core..alloc..globa
 	store_i32(memory_at_0, loc_3 + 8, add_i32(loc_0, 1024))
 	loc_0 = add_i32(loc_0, shl_i32(loc_2, 2))
 	store_i32(memory_at_0, loc_3 + 12, load_i32(memory_at_0, loc_0))
-	reg_0 = FUNC_LIST[8](loc_5, loc_1, add_i32(loc_3, 12), add_i32(loc_3, 8), 2)
+	reg_0 = FUNC_LIST[8](loc_5, loc_1, add_i32(loc_3, 12), add_i32(loc_3, 8), 3)
 	loc_2 = reg_0
 	if loc_2 ~= 0 then
 		goto continue_at_4
@@ -1229,14 +1257,14 @@ FUNC_LIST[10] = --[[ _ZN72_$LT$wee_alloc..WeeAlloc$u20$as$u20$core..alloc..globa
 	loc_2 = load_i32(memory_at_0, loc_3 + 4)
 	store_i32(memory_at_0, loc_2 + 8, load_i32(memory_at_0, loc_3 + 12))
 	store_i32(memory_at_0, loc_3 + 12, loc_2)
-	reg_0 = FUNC_LIST[8](loc_5, loc_1, add_i32(loc_3, 12), add_i32(loc_3, 8), 2)
+	reg_0 = FUNC_LIST[8](loc_5, loc_1, add_i32(loc_3, 12), add_i32(loc_3, 8), 3)
 	loc_2 = reg_0
 	::continue_at_4::
 	store_i32(memory_at_0, loc_0, load_i32(memory_at_0, loc_3 + 12))
 	goto continue_at_1
 	::continue_at_3::
 	store_i32(memory_at_0, loc_3 + 12, load_i32(memory_at_0, loc_0 + 1024))
-	reg_0 = FUNC_LIST[8](loc_5, loc_1, add_i32(loc_3, 12), 1048608, 1)
+	reg_0 = FUNC_LIST[8](loc_5, loc_1, add_i32(loc_3, 12), 1048652, 2)
 	loc_2 = reg_0
 	if loc_2 ~= 0 then
 		goto continue_at_5
@@ -1257,7 +1285,7 @@ FUNC_LIST[10] = --[[ _ZN72_$LT$wee_alloc..WeeAlloc$u20$as$u20$core..alloc..globa
 	store_i32(memory_at_0, loc_2 + 8, load_i32(memory_at_0, loc_3 + 12))
 	store_i32(memory_at_0, loc_2, bor_i32(add_i32(loc_2, band_i32(loc_4, -65536)), 2))
 	store_i32(memory_at_0, loc_3 + 12, loc_2)
-	reg_0 = FUNC_LIST[8](loc_5, loc_1, add_i32(loc_3, 12), 1048608, 1)
+	reg_0 = FUNC_LIST[8](loc_5, loc_1, add_i32(loc_3, 12), 1048652, 2)
 	loc_2 = reg_0
 	::continue_at_5::
 	store_i32(memory_at_0, loc_0 + 1024, load_i32(memory_at_0, loc_3 + 12))
@@ -1410,7 +1438,7 @@ FUNC_LIST[15] = --[[ _ZN5alloc7raw_vec19RawVec$LT$T$C$A$GT$7reserve21do_reserve_
 	if loc_0 == 0 then
 		goto continue_at_1
 	end
-	FUNC_LIST[38](loc_0, load_i32(memory_at_0, loc_3 + 16))
+	FUNC_LIST[44](loc_0, load_i32(memory_at_0, loc_3 + 16))
 	error("out of code bounds")
 	::continue_at_4::
 	loc_2 = load_i32(memory_at_0, loc_3 + 12)
@@ -1419,13 +1447,13 @@ FUNC_LIST[15] = --[[ _ZN5alloc7raw_vec19RawVec$LT$T$C$A$GT$7reserve21do_reserve_
 	GLOBAL_LIST[0].value = add_i32(loc_3, 32)
 	goto continue_at_0
 	::continue_at_1::
-	FUNC_LIST[37]()
+	FUNC_LIST[41]()
 	error("out of code bounds")
 	::continue_at_0::
 end
 FUNC_LIST[16] = --[[ _ZN4core3fmt5Write9write_fmt17h42133e6d7539921cE ]] function(loc_0, loc_1)
 	local reg_0
-	reg_0 = FUNC_LIST[45](loc_0, 1048608, loc_1)
+	reg_0 = FUNC_LIST[57](loc_0, 1048652, loc_1)
 	return reg_0
 end
 FUNC_LIST[17] = --[[ _ZN4core3ptr122drop_in_place$LT$$RF$alloc..boxed..Box$LT$dyn$u20$core..error..Error$u2b$core..marker..Send$u2b$core..marker..Sync$GT$$GT$17h0e53f70cbe448a87E ]] function(loc_0)
@@ -1501,7 +1529,7 @@ FUNC_LIST[21] = --[[ _ZN58_$LT$alloc..string..String$u20$as$u20$core..fmt..Write
 	FUNC_LIST[15](loc_0, loc_3, loc_1)
 	loc_3 = load_i32(memory_at_0, loc_0 + 8)
 	::continue_at_7::
-	reg_0 = FUNC_LIST[53](add_i32(load_i32(memory_at_0, loc_0 + 4), loc_3), add_i32(loc_2, 12), loc_1)
+	reg_0 = FUNC_LIST[70](add_i32(load_i32(memory_at_0, loc_0 + 4), loc_3), add_i32(loc_2, 12), loc_1)
 	store_i32(memory_at_0, loc_0 + 8, add_i32(loc_3, loc_1))
 	::continue_at_1::
 	GLOBAL_LIST[0].value = add_i32(loc_2, 16)
@@ -1542,7 +1570,7 @@ FUNC_LIST[22] = --[[ _ZN5alloc7raw_vec19RawVec$LT$T$C$A$GT$16reserve_for_push17h
 	if loc_0 == 0 then
 		goto continue_at_1
 	end
-	FUNC_LIST[38](loc_0, load_i32(memory_at_0, loc_2 + 16))
+	FUNC_LIST[44](loc_0, load_i32(memory_at_0, loc_2 + 16))
 	error("out of code bounds")
 	::continue_at_4::
 	loc_3 = load_i32(memory_at_0, loc_2 + 12)
@@ -1551,7 +1579,7 @@ FUNC_LIST[22] = --[[ _ZN5alloc7raw_vec19RawVec$LT$T$C$A$GT$16reserve_for_push17h
 	GLOBAL_LIST[0].value = add_i32(loc_2, 32)
 	goto continue_at_0
 	::continue_at_1::
-	FUNC_LIST[37]()
+	FUNC_LIST[41]()
 	error("out of code bounds")
 	::continue_at_0::
 end
@@ -1565,7 +1593,7 @@ FUNC_LIST[23] = --[[ _ZN58_$LT$alloc..string..String$u20$as$u20$core..fmt..Write
 	FUNC_LIST[15](loc_0, loc_3, loc_2)
 	loc_3 = load_i32(memory_at_0, loc_0 + 8)
 	::continue_at_1::
-	reg_0 = FUNC_LIST[53](add_i32(load_i32(memory_at_0, loc_0 + 4), loc_3), loc_1, loc_2)
+	reg_0 = FUNC_LIST[70](add_i32(load_i32(memory_at_0, loc_0 + 4), loc_3), loc_1, loc_2)
 	store_i32(memory_at_0, loc_0 + 8, add_i32(loc_3, loc_2))
 	reg_0 = 0
 	return reg_0
@@ -1658,7 +1686,7 @@ FUNC_LIST[26] = --[[ _ZN3std9panicking19begin_panic_handler28_$u7b$$u7b$closure$
 	if loc_3 ~= 0 then
 		goto continue_at_2
 	end
-	loc_2 = 1048608
+	loc_2 = 1048652
 	loc_3 = 0
 	goto continue_at_1
 	::continue_at_3::
@@ -1673,30 +1701,30 @@ FUNC_LIST[26] = --[[ _ZN3std9panicking19begin_panic_handler28_$u7b$$u7b$closure$
 	store_i32(memory_at_0, loc_1 + 12, loc_2)
 	store_i32(memory_at_0, loc_1, -2147483648)
 	loc_2 = load_i32(memory_at_0, loc_0 + 4)
-	FUNC_LIST[33](loc_1, 1048820, load_i32(memory_at_0, loc_2 + 8), load_i32(memory_at_0, loc_0 + 8), load_i32_u8(memory_at_0, loc_2 + 16), load_i32_u8(memory_at_0, loc_2 + 17))
+	FUNC_LIST[33](loc_1, 1048864, load_i32(memory_at_0, loc_2 + 8), load_i32(memory_at_0, loc_0 + 8), load_i32_u8(memory_at_0, loc_2 + 16), load_i32_u8(memory_at_0, loc_2 + 17))
 	error("out of code bounds")
 	::continue_at_1::
 	store_i32(memory_at_0, loc_1 + 4, loc_3)
 	store_i32(memory_at_0, loc_1, loc_2)
 	loc_2 = load_i32(memory_at_0, loc_0 + 4)
-	FUNC_LIST[33](loc_1, 1048800, load_i32(memory_at_0, loc_2 + 8), load_i32(memory_at_0, loc_0 + 8), load_i32_u8(memory_at_0, loc_2 + 16), load_i32_u8(memory_at_0, loc_2 + 17))
+	FUNC_LIST[33](loc_1, 1048844, load_i32(memory_at_0, loc_2 + 8), load_i32(memory_at_0, loc_0 + 8), load_i32_u8(memory_at_0, loc_2 + 16), load_i32_u8(memory_at_0, loc_2 + 17))
 	error("out of code bounds")
 end
 FUNC_LIST[27] = --[[ _ZN3std5alloc24default_alloc_error_hook17hbf3c582fe46a50aeE ]] function(loc_0, loc_1)
 	local loc_2 = 0
 	loc_2 = sub_i32(GLOBAL_LIST[0].value, 48)
 	GLOBAL_LIST[0].value = loc_2
-	if load_i32_u8(memory_at_0, 0 + 1050284) == 0 then
+	if load_i32_u8(memory_at_0, 0 + 1050488) == 0 then
 		goto continue_at_1
 	end
 	store_i32(memory_at_0, loc_2 + 16, 2)
-	store_i32(memory_at_0, loc_2 + 12, 1048668)
+	store_i32(memory_at_0, loc_2 + 12, 1048712)
 	store_i64(memory_at_0, loc_2 + 24, 1)
-	store_i32(memory_at_0, loc_2 + 40, 3)
+	store_i32(memory_at_0, loc_2 + 40, 4)
 	store_i32(memory_at_0, loc_2 + 44, loc_1)
 	store_i32(memory_at_0, loc_2 + 20, add_i32(loc_2, 36))
 	store_i32(memory_at_0, loc_2 + 36, add_i32(loc_2, 44))
-	FUNC_LIST[41](add_i32(loc_2, 12), 1048708)
+	FUNC_LIST[52](add_i32(loc_2, 12), 1048752)
 	error("out of code bounds")
 	::continue_at_1::
 	GLOBAL_LIST[0].value = add_i32(loc_2, 48)
@@ -1710,7 +1738,7 @@ FUNC_LIST[28] = --[[ rust_begin_unwind ]] function(loc_0)
 	if loc_2 ~= 0 then
 		goto continue_at_1
 	end
-	FUNC_LIST[47](1048752)
+	FUNC_LIST[60](1048796)
 	error("out of code bounds")
 	::continue_at_1::
 	store_i32(memory_at_0, loc_1 + 12, load_i32(memory_at_0, loc_0 + 12))
@@ -1734,7 +1762,7 @@ FUNC_LIST[29] = --[[ _ZN102_$LT$std..panicking..begin_panic_handler..FormatStrin
 	loc_4 = add_i32(add_i32(loc_2, 36), 8)
 	store_i32(memory_at_0, loc_4, 0)
 	store_i64(memory_at_0, loc_2 + 36, 4294967296)
-	reg_0 = FUNC_LIST[45](add_i32(loc_2, 36), 1048608, loc_3)
+	reg_0 = FUNC_LIST[57](add_i32(loc_2, 36), 1048652, loc_3)
 	loc_3 = load_i32(memory_at_0, loc_4)
 	store_i32(memory_at_0, add_i32(add_i32(loc_2, 24), 8), loc_3)
 	loc_5 = load_i64(memory_at_0, loc_2 + 36)
@@ -1754,12 +1782,12 @@ FUNC_LIST[29] = --[[ _ZN102_$LT$std..panicking..begin_panic_handler..FormatStrin
 	if loc_1 ~= 0 then
 		goto continue_at_2
 	end
-	FUNC_LIST[38](4, 12)
+	FUNC_LIST[44](4, 12)
 	error("out of code bounds")
 	::continue_at_2::
 	store_i64(memory_at_0, loc_1, load_i64(memory_at_0, loc_2 + 8))
 	store_i32(memory_at_0, add_i32(loc_1, 8), load_i32(memory_at_0, loc_3))
-	store_i32(memory_at_0, loc_0 + 4, 1048768)
+	store_i32(memory_at_0, loc_0 + 4, 1048812)
 	store_i32(memory_at_0, loc_0, loc_1)
 	GLOBAL_LIST[0].value = add_i32(loc_2, 48)
 end
@@ -1778,7 +1806,7 @@ FUNC_LIST[30] = --[[ _ZN102_$LT$std..panicking..begin_panic_handler..FormatStrin
 	loc_4 = add_i32(add_i32(loc_2, 20), 8)
 	store_i32(memory_at_0, loc_4, 0)
 	store_i64(memory_at_0, loc_2 + 20, 4294967296)
-	reg_0 = FUNC_LIST[45](add_i32(loc_2, 20), 1048608, loc_3)
+	reg_0 = FUNC_LIST[57](add_i32(loc_2, 20), 1048652, loc_3)
 	loc_3 = load_i32(memory_at_0, loc_4)
 	store_i32(memory_at_0, add_i32(add_i32(loc_2, 8), 8), loc_3)
 	loc_5 = load_i64(memory_at_0, loc_2 + 20)
@@ -1786,7 +1814,7 @@ FUNC_LIST[30] = --[[ _ZN102_$LT$std..panicking..begin_panic_handler..FormatStrin
 	store_i32(memory_at_0, add_i32(loc_1, 8), loc_3)
 	store_i64(memory_at_0, loc_1, loc_5)
 	::continue_at_1::
-	store_i32(memory_at_0, loc_0 + 4, 1048768)
+	store_i32(memory_at_0, loc_0 + 4, 1048812)
 	store_i32(memory_at_0, loc_0, loc_1)
 	GLOBAL_LIST[0].value = add_i32(loc_2, 32)
 end
@@ -1801,16 +1829,16 @@ FUNC_LIST[31] = --[[ _ZN99_$LT$std..panicking..begin_panic_handler..StaticStrPay
 	if loc_1 ~= 0 then
 		goto continue_at_1
 	end
-	FUNC_LIST[38](4, 8)
+	FUNC_LIST[44](4, 8)
 	error("out of code bounds")
 	::continue_at_1::
 	store_i32(memory_at_0, loc_1 + 4, loc_2)
 	store_i32(memory_at_0, loc_1, loc_3)
-	store_i32(memory_at_0, loc_0 + 4, 1048784)
+	store_i32(memory_at_0, loc_0 + 4, 1048828)
 	store_i32(memory_at_0, loc_0, loc_1)
 end
 FUNC_LIST[32] = --[[ _ZN99_$LT$std..panicking..begin_panic_handler..StaticStrPayload$u20$as$u20$core..panic..PanicPayload$GT$3get17hf733fa32d221b1c7E ]] function(loc_0, loc_1)
-	store_i32(memory_at_0, loc_0 + 4, 1048784)
+	store_i32(memory_at_0, loc_0 + 4, 1048828)
 	store_i32(memory_at_0, loc_0, loc_1)
 end
 FUNC_LIST[33] = --[[ _ZN3std9panicking20rust_panic_with_hook17h32c80a64fe4de396E ]] function(loc_0, loc_1, loc_2, loc_3, loc_4, loc_5)
@@ -1818,37 +1846,37 @@ FUNC_LIST[33] = --[[ _ZN3std9panicking20rust_panic_with_hook17h32c80a64fe4de396E
 	local loc_7 = 0
 	loc_6 = sub_i32(GLOBAL_LIST[0].value, 32)
 	GLOBAL_LIST[0].value = loc_6
-	loc_7 = load_i32(memory_at_0, 0 + 1050304)
-	store_i32(memory_at_0, 0 + 1050304, add_i32(loc_7, 1))
+	loc_7 = load_i32(memory_at_0, 0 + 1050508)
+	store_i32(memory_at_0, 0 + 1050508, add_i32(loc_7, 1))
 	if loc_7 < 0 then
 		goto continue_at_2
 	end
-	if band_i32(load_i32_u8(memory_at_0, 0 + 1050312), 255) ~= 0 then
+	if band_i32(load_i32_u8(memory_at_0, 0 + 1050516), 255) ~= 0 then
 		goto continue_at_2
 	end
-	store_i32_n8(memory_at_0, 0 + 1050312, 1)
-	store_i32(memory_at_0, 0 + 1050308, add_i32(load_i32(memory_at_0, 0 + 1050308), 1))
+	store_i32_n8(memory_at_0, 0 + 1050516, 1)
+	store_i32(memory_at_0, 0 + 1050512, add_i32(load_i32(memory_at_0, 0 + 1050512), 1))
 	store_i32_n8(memory_at_0, loc_6 + 29, loc_5)
 	store_i32_n8(memory_at_0, loc_6 + 28, loc_4)
 	store_i32(memory_at_0, loc_6 + 24, loc_3)
 	store_i32(memory_at_0, loc_6 + 20, loc_2)
-	store_i32(memory_at_0, loc_6 + 16, 1048840)
-	store_i32(memory_at_0, loc_6 + 12, 1048608)
-	loc_7 = load_i32(memory_at_0, 0 + 1050292)
+	store_i32(memory_at_0, loc_6 + 16, 1048884)
+	store_i32(memory_at_0, loc_6 + 12, 1048652)
+	loc_7 = load_i32(memory_at_0, 0 + 1050496)
 	if loc_7 <= -1 then
 		goto continue_at_2
 	end
-	store_i32(memory_at_0, 0 + 1050292, add_i32(loc_7, 1))
-	if load_i32(memory_at_0, 0 + 1050296) == 0 then
+	store_i32(memory_at_0, 0 + 1050496, add_i32(loc_7, 1))
+	if load_i32(memory_at_0, 0 + 1050500) == 0 then
 		goto continue_at_3
 	end
 	TABLE_LIST[0].data[load_i32(memory_at_0, loc_1 + 16)](loc_6, loc_0)
 	store_i64(memory_at_0, loc_6 + 12, load_i64(memory_at_0, loc_6))
-	TABLE_LIST[0].data[load_i32(memory_at_0, load_i32(memory_at_0, 0 + 1050300) + 20)](load_i32(memory_at_0, 0 + 1050296), add_i32(loc_6, 12))
-	loc_7 = add_i32(load_i32(memory_at_0, 0 + 1050292), -1)
+	TABLE_LIST[0].data[load_i32(memory_at_0, load_i32(memory_at_0, 0 + 1050504) + 20)](load_i32(memory_at_0, 0 + 1050500), add_i32(loc_6, 12))
+	loc_7 = add_i32(load_i32(memory_at_0, 0 + 1050496), -1)
 	::continue_at_3::
-	store_i32(memory_at_0, 0 + 1050292, loc_7)
-	store_i32_n8(memory_at_0, 0 + 1050312, 0)
+	store_i32(memory_at_0, 0 + 1050496, loc_7)
+	store_i32_n8(memory_at_0, 0 + 1050516, 0)
 	if loc_4 ~= 0 then
 		goto continue_at_1
 	end
@@ -1865,30 +1893,385 @@ FUNC_LIST[34] = --[[ rust_panic ]] function(loc_0, loc_1)
 end
 FUNC_LIST[35] = --[[ __rg_oom ]] function(loc_0, loc_1)
 	local loc_2 = 0
-	loc_2 = load_i32(memory_at_0, 0 + 1050288)
-	TABLE_LIST[0].data[(loc_2 ~= 0 and loc_2 or 4)](loc_1, loc_0)
+	loc_2 = load_i32(memory_at_0, 0 + 1050492)
+	TABLE_LIST[0].data[(loc_2 ~= 0 and loc_2 or 5)](loc_1, loc_0)
 	error("out of code bounds")
 end
 FUNC_LIST[36] = --[[ __rust_start_panic ]] function(loc_0, loc_1)
 	error("out of code bounds")
 	return reg_spill[1]
 end
-FUNC_LIST[37] = --[[ _ZN5alloc7raw_vec17capacity_overflow17h4b860f23af004aeaE ]] function()
+FUNC_LIST[37] = --[[ _ZN4core3fmt5Write9write_fmt17h648962df2fa78f1dE ]] function(loc_0, loc_1)
+	local reg_0
+	reg_0 = FUNC_LIST[57](loc_0, 1048908, loc_1)
+	return reg_0
+end
+FUNC_LIST[38] = --[[ _ZN4core3ptr37drop_in_place$LT$core..fmt..Error$GT$17heab53633c535576bE ]] function(loc_0)
+end
+FUNC_LIST[39] = --[[ _ZN4core3ptr42drop_in_place$LT$alloc..string..String$GT$17h65f353bf99dcd1e8E ]] function(loc_0)
+	local loc_1 = 0
+	loc_1 = load_i32(memory_at_0, loc_0)
+	if loc_1 == 0 then
+		goto continue_at_1
+	end
+	FUNC_LIST[3](load_i32(memory_at_0, loc_0 + 4), loc_1, 1)
+	::continue_at_1::
+end
+FUNC_LIST[40] = --[[ _ZN53_$LT$core..fmt..Error$u20$as$u20$core..fmt..Debug$GT$3fmt17h982162ee53714890E ]] function(loc_0, loc_1)
+	local reg_0
+	reg_0 = FUNC_LIST[66](loc_1, 1048900, 5)
+	return reg_0
+end
+FUNC_LIST[41] = --[[ _ZN5alloc7raw_vec17capacity_overflow17h4b860f23af004aeaE ]] function()
 	local loc_0 = 0
 	loc_0 = sub_i32(GLOBAL_LIST[0].value, 32)
 	GLOBAL_LIST[0].value = loc_0
 	store_i32(memory_at_0, loc_0 + 12, 1)
-	store_i32(memory_at_0, loc_0 + 8, 1048876)
+	store_i32(memory_at_0, loc_0 + 8, 1048952)
 	store_i64(memory_at_0, loc_0 + 20, 0)
-	store_i32(memory_at_0, loc_0 + 16, 1048856)
-	FUNC_LIST[41](add_i32(loc_0, 8), 1048912)
+	store_i32(memory_at_0, loc_0 + 16, 1048900)
+	FUNC_LIST[52](add_i32(loc_0, 8), 1048988)
 	error("out of code bounds")
 end
-FUNC_LIST[38] = --[[ _ZN5alloc5alloc18handle_alloc_error17hfe87458dab42fa9dE ]] function(loc_0, loc_1)
+FUNC_LIST[42] = --[[ _ZN5alloc7raw_vec19RawVec$LT$T$C$A$GT$7reserve21do_reserve_and_handle17h55a6ad07ac3fb528E ]] function(loc_0, loc_1, loc_2)
+	local loc_3 = 0
+	local loc_4 = 0
+	local loc_5 = 0
+	loc_3 = sub_i32(GLOBAL_LIST[0].value, 32)
+	GLOBAL_LIST[0].value = loc_3
+	loc_2 = add_i32(loc_1, loc_2)
+	if lt_u32(loc_2, loc_1) then
+		goto continue_at_1
+	end
+	loc_4 = 1
+	loc_5 = load_i32(memory_at_0, loc_0)
+	loc_1 = shl_i32(loc_5, 1)
+	loc_1 = (gt_u32(loc_1, loc_2) and loc_1 or loc_2)
+	loc_1 = (gt_u32(loc_1, 8) and loc_1 or 8)
+	loc_2 = shr_u32(bxor_i32(loc_1, -1), 31)
+	if loc_5 ~= 0 then
+		goto continue_at_3
+	end
+	loc_4 = 0
+	goto continue_at_2
+	::continue_at_3::
+	store_i32(memory_at_0, loc_3 + 28, loc_5)
+	store_i32(memory_at_0, loc_3 + 20, load_i32(memory_at_0, loc_0 + 4))
+	::continue_at_2::
+	store_i32(memory_at_0, loc_3 + 24, loc_4)
+	FUNC_LIST[43](add_i32(loc_3, 8), loc_2, loc_1, add_i32(loc_3, 20))
+	if load_i32(memory_at_0, loc_3 + 8) == 0 then
+		goto continue_at_4
+	end
+	loc_0 = load_i32(memory_at_0, loc_3 + 12)
+	if loc_0 == 0 then
+		goto continue_at_1
+	end
+	FUNC_LIST[44](loc_0, load_i32(memory_at_0, loc_3 + 16))
+	error("out of code bounds")
+	::continue_at_4::
+	loc_2 = load_i32(memory_at_0, loc_3 + 12)
+	store_i32(memory_at_0, loc_0, loc_1)
+	store_i32(memory_at_0, loc_0 + 4, loc_2)
+	GLOBAL_LIST[0].value = add_i32(loc_3, 32)
+	goto continue_at_0
+	::continue_at_1::
+	FUNC_LIST[41]()
+	error("out of code bounds")
+	::continue_at_0::
+end
+FUNC_LIST[43] = --[[ _ZN5alloc7raw_vec11finish_grow17h6f6eca46f2cd3b77E ]] function(loc_0, loc_1, loc_2, loc_3)
+	local loc_4 = 0
+	local loc_5 = 0
+	local loc_6 = 0
+	local reg_0
+	loc_4 = 1
+	loc_5 = 0
+	loc_6 = 4
+	if loc_1 == 0 then
+		goto continue_at_1
+	end
+	if loc_2 < 0 then
+		goto continue_at_1
+	end
+	if load_i32(memory_at_0, loc_3 + 4) == 0 then
+		goto continue_at_6
+	end
+	loc_4 = load_i32(memory_at_0, loc_3 + 8)
+	if loc_4 ~= 0 then
+		goto continue_at_7
+	end
+	if loc_2 ~= 0 then
+		goto continue_at_8
+	end
+	loc_4 = 1
+	goto continue_at_4
+	::continue_at_8::
+	reg_0 = FUNC_LIST[2](loc_2, 1)
+	loc_4 = reg_0
+	goto continue_at_5
+	::continue_at_7::
+	reg_0 = FUNC_LIST[4](load_i32(memory_at_0, loc_3), loc_4, 1, loc_2)
+	loc_4 = reg_0
+	goto continue_at_5
+	::continue_at_6::
+	if loc_2 ~= 0 then
+		goto continue_at_9
+	end
+	loc_4 = 1
+	goto continue_at_4
+	::continue_at_9::
+	reg_0 = FUNC_LIST[2](loc_2, 1)
+	loc_4 = reg_0
+	::continue_at_5::
+	if loc_4 == 0 then
+		goto continue_at_3
+	end
+	::continue_at_4::
+	store_i32(memory_at_0, loc_0 + 4, loc_4)
+	loc_4 = 0
+	goto continue_at_2
+	::continue_at_3::
+	loc_4 = 1
+	store_i32(memory_at_0, loc_0 + 4, 1)
+	::continue_at_2::
+	loc_6 = 8
+	loc_5 = loc_2
+	::continue_at_1::
+	store_i32(memory_at_0, add_i32(loc_0, loc_6), loc_5)
+	store_i32(memory_at_0, loc_0, loc_4)
+end
+FUNC_LIST[44] = --[[ _ZN5alloc5alloc18handle_alloc_error17hfe87458dab42fa9dE ]] function(loc_0, loc_1)
 	FUNC_LIST[5](loc_1, loc_0)
 	error("out of code bounds")
 end
-FUNC_LIST[39] = --[[ _ZN4core3ops8function6FnOnce9call_once17heaf558fe3ceb703bE ]] function(loc_0, loc_1)
+FUNC_LIST[45] = --[[ _ZN5alloc7raw_vec19RawVec$LT$T$C$A$GT$16reserve_for_push17h95cb8fcc1f48cb08E ]] function(loc_0, loc_1)
+	local loc_2 = 0
+	local loc_3 = 0
+	local loc_4 = 0
+	loc_2 = sub_i32(GLOBAL_LIST[0].value, 32)
+	GLOBAL_LIST[0].value = loc_2
+	loc_1 = add_i32(loc_1, 1)
+	if loc_1 == 0 then
+		goto continue_at_1
+	end
+	loc_3 = load_i32(memory_at_0, loc_0)
+	loc_4 = shl_i32(loc_3, 1)
+	loc_1 = (gt_u32(loc_4, loc_1) and loc_4 or loc_1)
+	loc_1 = (gt_u32(loc_1, 8) and loc_1 or 8)
+	loc_4 = shr_u32(bxor_i32(loc_1, -1), 31)
+	if loc_3 ~= 0 then
+		goto continue_at_3
+	end
+	loc_3 = 0
+	goto continue_at_2
+	::continue_at_3::
+	store_i32(memory_at_0, loc_2 + 28, loc_3)
+	store_i32(memory_at_0, loc_2 + 20, load_i32(memory_at_0, loc_0 + 4))
+	loc_3 = 1
+	::continue_at_2::
+	store_i32(memory_at_0, loc_2 + 24, loc_3)
+	FUNC_LIST[43](add_i32(loc_2, 8), loc_4, loc_1, add_i32(loc_2, 20))
+	if load_i32(memory_at_0, loc_2 + 8) == 0 then
+		goto continue_at_4
+	end
+	loc_0 = load_i32(memory_at_0, loc_2 + 12)
+	if loc_0 == 0 then
+		goto continue_at_1
+	end
+	FUNC_LIST[44](loc_0, load_i32(memory_at_0, loc_2 + 16))
+	error("out of code bounds")
+	::continue_at_4::
+	loc_3 = load_i32(memory_at_0, loc_2 + 12)
+	store_i32(memory_at_0, loc_0, loc_1)
+	store_i32(memory_at_0, loc_0 + 4, loc_3)
+	GLOBAL_LIST[0].value = add_i32(loc_2, 32)
+	goto continue_at_0
+	::continue_at_1::
+	FUNC_LIST[41]()
+	error("out of code bounds")
+	::continue_at_0::
+end
+FUNC_LIST[46] = --[[ _ZN5alloc3fmt6format12format_inner17h6f1367c1ab08551eE ]] function(loc_0, loc_1)
+	local loc_2 = 0
+	local loc_3 = 0
+	local loc_4 = 0
+	local loc_5 = 0
+	local loc_6 = 0
+	local loc_7 = 0
+	local loc_8 = 0
+	local reg_0
+	loc_2 = sub_i32(GLOBAL_LIST[0].value, 16)
+	GLOBAL_LIST[0].value = loc_2
+	loc_3 = load_i32(memory_at_0, loc_1 + 4)
+	if loc_3 == 0 then
+		goto continue_at_6
+	end
+	loc_4 = load_i32(memory_at_0, loc_1)
+	loc_5 = band_i32(loc_3, 3)
+	if ge_u32(loc_3, 4) then
+		goto continue_at_8
+	end
+	loc_3 = 0
+	loc_6 = 0
+	goto continue_at_7
+	::continue_at_8::
+	loc_7 = add_i32(loc_4, 28)
+	loc_8 = band_i32(loc_3, -4)
+	loc_3 = 0
+	loc_6 = 0
+	::continue_at_9::
+	while true do
+		loc_3 = add_i32(load_i32(memory_at_0, loc_7), add_i32(load_i32(memory_at_0, add_i32(loc_7, -8)), add_i32(load_i32(memory_at_0, add_i32(loc_7, -16)), add_i32(load_i32(memory_at_0, add_i32(loc_7, -24)), loc_3))))
+		loc_7 = add_i32(loc_7, 32)
+		loc_6 = add_i32(loc_6, 4)
+		if loc_8 ~= loc_6 then
+			goto continue_at_9
+		end
+		break
+	end
+	::continue_at_7::
+	if loc_5 == 0 then
+		goto continue_at_10
+	end
+	loc_7 = add_i32(add_i32(shl_i32(loc_6, 3), loc_4), 4)
+	::continue_at_11::
+	while true do
+		loc_3 = add_i32(load_i32(memory_at_0, loc_7), loc_3)
+		loc_7 = add_i32(loc_7, 8)
+		loc_5 = add_i32(loc_5, -1)
+		if loc_5 ~= 0 then
+			goto continue_at_11
+		end
+		break
+	end
+	::continue_at_10::
+	if load_i32(memory_at_0, loc_1 + 12) == 0 then
+		goto continue_at_12
+	end
+	if loc_3 < 0 then
+		goto continue_at_6
+	end
+	if band_i32((lt_u32(loc_3, 16) and 1 or 0), (load_i32(memory_at_0, loc_4 + 4) == 0 and 1 or 0)) ~= 0 then
+		goto continue_at_6
+	end
+	loc_3 = shl_i32(loc_3, 1)
+	::continue_at_12::
+	if loc_3 ~= 0 then
+		goto continue_at_5
+	end
+	::continue_at_6::
+	loc_7 = 1
+	loc_3 = 0
+	goto continue_at_4
+	::continue_at_5::
+	if loc_3 < 0 then
+		goto continue_at_3
+	end
+	reg_0 = FUNC_LIST[2](loc_3, 1)
+	loc_7 = reg_0
+	if loc_7 == 0 then
+		goto continue_at_2
+	end
+	::continue_at_4::
+	store_i32(memory_at_0, loc_2 + 8, 0)
+	store_i32(memory_at_0, loc_2 + 4, loc_7)
+	store_i32(memory_at_0, loc_2, loc_3)
+	reg_0 = FUNC_LIST[57](loc_2, 1048908, loc_1)
+	if reg_0 == 0 then
+		goto continue_at_1
+	end
+	FUNC_LIST[59](1049004, 51, add_i32(loc_2, 15), 1049056, 1049096)
+	error("out of code bounds")
+	::continue_at_3::
+	FUNC_LIST[41]()
+	error("out of code bounds")
+	::continue_at_2::
+	FUNC_LIST[44](1, loc_3)
+	error("out of code bounds")
+	::continue_at_1::
+	store_i64(memory_at_0, loc_0, load_i64(memory_at_0, loc_2))
+	store_i32(memory_at_0, add_i32(loc_0, 8), load_i32(memory_at_0, add_i32(loc_2, 8)))
+	GLOBAL_LIST[0].value = add_i32(loc_2, 16)
+end
+FUNC_LIST[47] = --[[ _ZN5alloc6string6String4push17haaf034e0d6373de7E ]] function(loc_0, loc_1)
+	local loc_2 = 0
+	local loc_3 = 0
+	local reg_0
+	loc_2 = sub_i32(GLOBAL_LIST[0].value, 16)
+	GLOBAL_LIST[0].value = loc_2
+	if lt_u32(loc_1, 128) then
+		goto continue_at_4
+	end
+	store_i32(memory_at_0, loc_2 + 12, 0)
+	if lt_u32(loc_1, 2048) then
+		goto continue_at_3
+	end
+	if ge_u32(loc_1, 65536) then
+		goto continue_at_5
+	end
+	store_i32_n8(memory_at_0, loc_2 + 14, bor_i32(band_i32(loc_1, 63), 128))
+	store_i32_n8(memory_at_0, loc_2 + 12, bor_i32(shr_u32(loc_1, 12), 224))
+	store_i32_n8(memory_at_0, loc_2 + 13, bor_i32(band_i32(shr_u32(loc_1, 6), 63), 128))
+	loc_1 = 3
+	goto continue_at_2
+	::continue_at_5::
+	store_i32_n8(memory_at_0, loc_2 + 15, bor_i32(band_i32(loc_1, 63), 128))
+	store_i32_n8(memory_at_0, loc_2 + 14, bor_i32(band_i32(shr_u32(loc_1, 6), 63), 128))
+	store_i32_n8(memory_at_0, loc_2 + 13, bor_i32(band_i32(shr_u32(loc_1, 12), 63), 128))
+	store_i32_n8(memory_at_0, loc_2 + 12, bor_i32(band_i32(shr_u32(loc_1, 18), 7), 240))
+	loc_1 = 4
+	goto continue_at_2
+	::continue_at_4::
+	loc_3 = load_i32(memory_at_0, loc_0 + 8)
+	if loc_3 ~= load_i32(memory_at_0, loc_0) then
+		goto continue_at_6
+	end
+	FUNC_LIST[45](loc_0, loc_3)
+	loc_3 = load_i32(memory_at_0, loc_0 + 8)
+	::continue_at_6::
+	store_i32(memory_at_0, loc_0 + 8, add_i32(loc_3, 1))
+	store_i32_n8(memory_at_0, add_i32(load_i32(memory_at_0, loc_0 + 4), loc_3), loc_1)
+	goto continue_at_1
+	::continue_at_3::
+	store_i32_n8(memory_at_0, loc_2 + 13, bor_i32(band_i32(loc_1, 63), 128))
+	store_i32_n8(memory_at_0, loc_2 + 12, bor_i32(shr_u32(loc_1, 6), 192))
+	loc_1 = 2
+	::continue_at_2::
+	loc_3 = load_i32(memory_at_0, loc_0 + 8)
+	if ge_u32(sub_i32(load_i32(memory_at_0, loc_0), loc_3), loc_1) then
+		goto continue_at_7
+	end
+	FUNC_LIST[42](loc_0, loc_3, loc_1)
+	loc_3 = load_i32(memory_at_0, loc_0 + 8)
+	::continue_at_7::
+	reg_0 = FUNC_LIST[70](add_i32(load_i32(memory_at_0, loc_0 + 4), loc_3), add_i32(loc_2, 12), loc_1)
+	store_i32(memory_at_0, loc_0 + 8, add_i32(loc_3, loc_1))
+	::continue_at_1::
+	GLOBAL_LIST[0].value = add_i32(loc_2, 16)
+end
+FUNC_LIST[48] = --[[ _ZN58_$LT$alloc..string..String$u20$as$u20$core..fmt..Write$GT$9write_str17ha4c1d4db74f407e6E ]] function(loc_0, loc_1, loc_2)
+	local loc_3 = 0
+	local reg_0
+	loc_3 = load_i32(memory_at_0, loc_0 + 8)
+	if ge_u32(sub_i32(load_i32(memory_at_0, loc_0), loc_3), loc_2) then
+		goto continue_at_1
+	end
+	FUNC_LIST[42](loc_0, loc_3, loc_2)
+	loc_3 = load_i32(memory_at_0, loc_0 + 8)
+	::continue_at_1::
+	reg_0 = FUNC_LIST[70](add_i32(load_i32(memory_at_0, loc_0 + 4), loc_3), loc_1, loc_2)
+	store_i32(memory_at_0, loc_0 + 8, add_i32(loc_3, loc_2))
+	reg_0 = 0
+	return reg_0
+end
+FUNC_LIST[49] = --[[ _ZN58_$LT$alloc..string..String$u20$as$u20$core..fmt..Write$GT$10write_char17h7dbb00feee8a69b4E ]] function(loc_0, loc_1)
+	local reg_0
+	FUNC_LIST[47](loc_0, loc_1)
+	reg_0 = 0
+	return reg_0
+end
+FUNC_LIST[50] = --[[ _ZN4core3ops8function6FnOnce9call_once17heaf558fe3ceb703bE ]] function(loc_0, loc_1)
 	local reg_0
 	::continue_at_1::
 	while true do
@@ -1896,56 +2279,293 @@ FUNC_LIST[39] = --[[ _ZN4core3ops8function6FnOnce9call_once17heaf558fe3ceb703bE 
 	end
 	return reg_0
 end
-FUNC_LIST[40] = --[[ _ZN4core3ptr37drop_in_place$LT$core..fmt..Error$GT$17heac5c393b5b08d77E ]] function(loc_0)
+FUNC_LIST[51] = --[[ _ZN4core3ptr37drop_in_place$LT$core..fmt..Error$GT$17heac5c393b5b08d77E ]] function(loc_0)
 end
-FUNC_LIST[41] = --[[ _ZN4core9panicking9panic_fmt17hc7427f902a13f1a9E ]] function(loc_0, loc_1)
+FUNC_LIST[52] = --[[ _ZN4core9panicking9panic_fmt17hc7427f902a13f1a9E ]] function(loc_0, loc_1)
 	local loc_2 = 0
 	loc_2 = sub_i32(GLOBAL_LIST[0].value, 32)
 	GLOBAL_LIST[0].value = loc_2
 	store_i32_n16(memory_at_0, loc_2 + 28, 1)
 	store_i32(memory_at_0, loc_2 + 24, loc_1)
 	store_i32(memory_at_0, loc_2 + 20, loc_0)
-	store_i32(memory_at_0, loc_2 + 16, 1048972)
-	store_i32(memory_at_0, loc_2 + 12, 1048928)
+	store_i32(memory_at_0, loc_2 + 16, 1049156)
+	store_i32(memory_at_0, loc_2 + 12, 1049112)
 	FUNC_LIST[28](add_i32(loc_2, 12))
 	error("out of code bounds")
 end
-FUNC_LIST[42] = --[[ _ZN4core9panicking18panic_bounds_check17h0880207052ec715aE ]] function(loc_0, loc_1, loc_2)
+FUNC_LIST[53] = --[[ _ZN4core9panicking18panic_bounds_check17h0880207052ec715aE ]] function(loc_0, loc_1, loc_2)
 	local loc_3 = 0
 	loc_3 = sub_i32(GLOBAL_LIST[0].value, 48)
 	GLOBAL_LIST[0].value = loc_3
 	store_i32(memory_at_0, loc_3 + 4, loc_1)
 	store_i32(memory_at_0, loc_3, loc_0)
-	store_i32(memory_at_0, add_i32(loc_3, 44), 3)
+	store_i32(memory_at_0, add_i32(loc_3, 44), 4)
 	store_i32(memory_at_0, loc_3 + 12, 2)
-	store_i32(memory_at_0, loc_3 + 8, 1049040)
+	store_i32(memory_at_0, loc_3 + 8, 1049224)
 	store_i64(memory_at_0, loc_3 + 20, 2)
-	store_i32(memory_at_0, loc_3 + 36, 3)
+	store_i32(memory_at_0, loc_3 + 36, 4)
 	store_i32(memory_at_0, loc_3 + 16, add_i32(loc_3, 32))
 	store_i32(memory_at_0, loc_3 + 40, loc_3)
 	store_i32(memory_at_0, loc_3 + 32, add_i32(loc_3, 4))
-	FUNC_LIST[41](add_i32(loc_3, 8), loc_2)
+	FUNC_LIST[52](add_i32(loc_3, 8), loc_2)
 	error("out of code bounds")
 end
-FUNC_LIST[43] = --[[ _ZN4core9panicking5panic17hb157b525de3fe68dE ]] function(loc_0, loc_1, loc_2)
+FUNC_LIST[54] = --[[ _ZN4core3fmt9Formatter3pad17he912c8e3a6a7e657E ]] function(loc_0, loc_1, loc_2)
+	local loc_3 = 0
+	local loc_4 = 0
+	local loc_5 = 0
+	local loc_6 = 0
+	local loc_7 = 0
+	local loc_8 = 0
+	local reg_0
+	local br_map, temp = {}, nil
+	loc_3 = load_i32(memory_at_0, loc_0)
+	loc_4 = load_i32(memory_at_0, loc_0 + 8)
+	if bor_i32(loc_3, loc_4) == 0 then
+		goto continue_at_1
+	end
+	if loc_4 == 0 then
+		goto continue_at_2
+	end
+	loc_5 = add_i32(loc_1, loc_2)
+	loc_6 = load_i32(memory_at_0, loc_0 + 12)
+	if loc_6 ~= 0 then
+		goto continue_at_4
+	end
+	loc_7 = 0
+	loc_8 = loc_1
+	goto continue_at_3
+	::continue_at_4::
+	loc_7 = 0
+	loc_8 = loc_1
+	::continue_at_5::
+	while true do
+		loc_4 = loc_8
+		if loc_4 == loc_5 then
+			goto continue_at_2
+		end
+		loc_8 = load_i32_i8(memory_at_0, loc_4)
+		if loc_8 <= -1 then
+			goto continue_at_7
+		end
+		loc_8 = add_i32(loc_4, 1)
+		goto continue_at_6
+		::continue_at_7::
+		if ge_u32(loc_8, -32) then
+			goto continue_at_8
+		end
+		loc_8 = add_i32(loc_4, 2)
+		goto continue_at_6
+		::continue_at_8::
+		if ge_u32(loc_8, -16) then
+			goto continue_at_9
+		end
+		loc_8 = add_i32(loc_4, 3)
+		goto continue_at_6
+		::continue_at_9::
+		if bor_i32(bor_i32(bor_i32(shl_i32(band_i32(load_i32_u8(memory_at_0, loc_4 + 2), 63), 6), shl_i32(band_i32(load_i32_u8(memory_at_0, loc_4 + 1), 63), 12)), band_i32(load_i32_u8(memory_at_0, loc_4 + 3), 63)), band_i32(shl_i32(band_i32(loc_8, 255), 18), 1835008)) == 1114112 then
+			goto continue_at_2
+		end
+		loc_8 = add_i32(loc_4, 4)
+		::continue_at_6::
+		loc_7 = add_i32(sub_i32(loc_7, loc_4), loc_8)
+		loc_6 = add_i32(loc_6, -1)
+		if loc_6 ~= 0 then
+			goto continue_at_5
+		end
+		break
+	end
+	::continue_at_3::
+	if loc_8 == loc_5 then
+		goto continue_at_2
+	end
+	loc_4 = load_i32_i8(memory_at_0, loc_8)
+	if loc_4 > -1 then
+		goto continue_at_10
+	end
+	if lt_u32(loc_4, -32) then
+		goto continue_at_10
+	end
+	if lt_u32(loc_4, -16) then
+		goto continue_at_10
+	end
+	if bor_i32(bor_i32(bor_i32(shl_i32(band_i32(load_i32_u8(memory_at_0, loc_8 + 2), 63), 6), shl_i32(band_i32(load_i32_u8(memory_at_0, loc_8 + 1), 63), 12)), band_i32(load_i32_u8(memory_at_0, loc_8 + 3), 63)), band_i32(shl_i32(band_i32(loc_4, 255), 18), 1835008)) == 1114112 then
+		goto continue_at_2
+	end
+	::continue_at_10::
+	if loc_7 == 0 then
+		goto continue_at_11
+	end
+	if lt_u32(loc_7, loc_2) then
+		goto continue_at_12
+	end
+	if loc_7 == loc_2 then
+		goto continue_at_11
+	end
+	goto continue_at_2
+	::continue_at_12::
+	if load_i32_i8(memory_at_0, add_i32(loc_1, loc_7)) < -64 then
+		goto continue_at_2
+	end
+	::continue_at_11::
+	loc_2 = loc_7
+	::continue_at_2::
+	if loc_3 ~= 0 then
+		goto continue_at_13
+	end
+	reg_0 = TABLE_LIST[0].data[load_i32(memory_at_0, load_i32(memory_at_0, loc_0 + 24) + 12)](load_i32(memory_at_0, loc_0 + 20), loc_1, loc_2)
+	goto continue_at_0
+	::continue_at_13::
+	loc_3 = load_i32(memory_at_0, loc_0 + 4)
+	if lt_u32(loc_2, 16) then
+		goto continue_at_15
+	end
+	reg_0 = FUNC_LIST[64](loc_1, loc_2)
+	loc_4 = reg_0
+	goto continue_at_14
+	::continue_at_15::
+	if loc_2 ~= 0 then
+		goto continue_at_16
+	end
+	loc_4 = 0
+	goto continue_at_14
+	::continue_at_16::
+	loc_6 = band_i32(loc_2, 3)
+	if ge_u32(loc_2, 4) then
+		goto continue_at_18
+	end
+	loc_4 = 0
+	loc_7 = 0
+	goto continue_at_17
+	::continue_at_18::
+	loc_5 = band_i32(loc_2, 12)
+	loc_4 = 0
+	loc_7 = 0
+	::continue_at_19::
+	while true do
+		loc_8 = add_i32(loc_1, loc_7)
+		loc_4 = add_i32(add_i32(add_i32(add_i32(loc_4, (load_i32_i8(memory_at_0, loc_8) > -65 and 1 or 0)), (load_i32_i8(memory_at_0, add_i32(loc_8, 1)) > -65 and 1 or 0)), (load_i32_i8(memory_at_0, add_i32(loc_8, 2)) > -65 and 1 or 0)), (load_i32_i8(memory_at_0, add_i32(loc_8, 3)) > -65 and 1 or 0))
+		loc_7 = add_i32(loc_7, 4)
+		if loc_5 ~= loc_7 then
+			goto continue_at_19
+		end
+		break
+	end
+	::continue_at_17::
+	if loc_6 == 0 then
+		goto continue_at_14
+	end
+	loc_8 = add_i32(loc_1, loc_7)
+	::continue_at_20::
+	while true do
+		loc_4 = add_i32(loc_4, (load_i32_i8(memory_at_0, loc_8) > -65 and 1 or 0))
+		loc_8 = add_i32(loc_8, 1)
+		loc_6 = add_i32(loc_6, -1)
+		if loc_6 ~= 0 then
+			goto continue_at_20
+		end
+		break
+	end
+	::continue_at_14::
+	if le_u32(loc_3, loc_4) then
+		goto continue_at_22
+	end
+	loc_5 = sub_i32(loc_3, loc_4)
+	loc_4 = 0
+	if not br_map[1] then
+		br_map[1] = (function()
+			return { [0] = 2, 0, 1, 2, }
+		end)()
+	end
+	temp = br_map[1][load_i32_u8(memory_at_0, loc_0 + 32)] or 2
+	if temp < 1 then
+		goto continue_at_25
+	elseif temp > 1 then
+		goto continue_at_23
+	else
+		goto continue_at_24
+	end
+	::continue_at_25::
+	loc_4 = loc_5
+	loc_5 = 0
+	goto continue_at_23
+	::continue_at_24::
+	loc_4 = shr_u32(loc_5, 1)
+	loc_5 = shr_u32(add_i32(loc_5, 1), 1)
+	::continue_at_23::
+	loc_4 = add_i32(loc_4, 1)
+	loc_6 = load_i32(memory_at_0, loc_0 + 16)
+	loc_8 = load_i32(memory_at_0, loc_0 + 24)
+	loc_7 = load_i32(memory_at_0, loc_0 + 20)
+	::continue_at_26::
+	while true do
+		loc_4 = add_i32(loc_4, -1)
+		if loc_4 == 0 then
+			goto continue_at_21
+		end
+		reg_0 = TABLE_LIST[0].data[load_i32(memory_at_0, loc_8 + 16)](loc_7, loc_6)
+		if reg_0 == 0 then
+			goto continue_at_26
+		end
+		break
+	end
+	reg_0 = 1
+	goto continue_at_0
+	::continue_at_22::
+	reg_0 = TABLE_LIST[0].data[load_i32(memory_at_0, load_i32(memory_at_0, loc_0 + 24) + 12)](load_i32(memory_at_0, loc_0 + 20), loc_1, loc_2)
+	goto continue_at_0
+	::continue_at_21::
+	loc_4 = 1
+	reg_0 = TABLE_LIST[0].data[load_i32(memory_at_0, loc_8 + 12)](loc_7, loc_1, loc_2)
+	if reg_0 ~= 0 then
+		goto continue_at_27
+	end
+	loc_4 = 0
+	::continue_at_29::
+	while true do
+		if loc_5 ~= loc_4 then
+			goto continue_at_30
+		end
+		loc_4 = loc_5
+		goto continue_at_28
+		::continue_at_30::
+		loc_4 = add_i32(loc_4, 1)
+		reg_0 = TABLE_LIST[0].data[load_i32(memory_at_0, loc_8 + 16)](loc_7, loc_6)
+		if reg_0 == 0 then
+			goto continue_at_29
+		end
+		break
+	end
+	loc_4 = add_i32(loc_4, -1)
+	::continue_at_28::
+	loc_4 = (lt_u32(loc_4, loc_5) and 1 or 0)
+	::continue_at_27::
+	reg_0 = loc_4
+	goto continue_at_0
+	::continue_at_1::
+	reg_0 = TABLE_LIST[0].data[load_i32(memory_at_0, load_i32(memory_at_0, loc_0 + 24) + 12)](load_i32(memory_at_0, loc_0 + 20), loc_1, loc_2)
+	::continue_at_0::
+	return reg_0
+end
+FUNC_LIST[55] = --[[ _ZN4core9panicking5panic17hb157b525de3fe68dE ]] function(loc_0, loc_1, loc_2)
 	local loc_3 = 0
 	loc_3 = sub_i32(GLOBAL_LIST[0].value, 32)
 	GLOBAL_LIST[0].value = loc_3
 	store_i32(memory_at_0, loc_3 + 4, 1)
 	store_i64(memory_at_0, loc_3 + 12, 0)
-	store_i32(memory_at_0, loc_3 + 8, 1048928)
+	store_i32(memory_at_0, loc_3 + 8, 1049112)
 	store_i32(memory_at_0, loc_3 + 28, loc_1)
 	store_i32(memory_at_0, loc_3 + 24, loc_0)
 	store_i32(memory_at_0, loc_3, add_i32(loc_3, 24))
-	FUNC_LIST[41](loc_3, loc_2)
+	FUNC_LIST[52](loc_3, loc_2)
 	error("out of code bounds")
 end
-FUNC_LIST[44] = --[[ _ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u32$GT$3fmt17h70268e3615e3ec29E ]] function(loc_0, loc_1)
+FUNC_LIST[56] = --[[ _ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u32$GT$3fmt17h70268e3615e3ec29E ]] function(loc_0, loc_1)
 	local reg_0
-	reg_0 = FUNC_LIST[51](load_i64_u32(memory_at_0, loc_0), 1, loc_1)
+	reg_0 = FUNC_LIST[67](load_i64_u32(memory_at_0, loc_0), 1, loc_1)
 	return reg_0
 end
-FUNC_LIST[45] = --[[ _ZN4core3fmt5write17hdf060125a23f37a7E ]] function(loc_0, loc_1, loc_2)
+FUNC_LIST[57] = --[[ _ZN4core3fmt5write17hdf060125a23f37a7E ]] function(loc_0, loc_1, loc_2)
 	local loc_3 = 0
 	local loc_4 = 0
 	local loc_5 = 0
@@ -2048,7 +2668,7 @@ FUNC_LIST[45] = --[[ _ZN4core3fmt5write17hdf060125a23f37a7E ]] function(loc_0, l
 		loc_12 = shl_i32(loc_7, 3)
 		loc_11 = 0
 		loc_12 = add_i32(loc_9, loc_12)
-		if load_i32(memory_at_0, loc_12 + 4) ~= 19 then
+		if load_i32(memory_at_0, loc_12 + 4) ~= 26 then
 			goto continue_at_10
 		end
 		loc_7 = load_i32(memory_at_0, load_i32(memory_at_0, loc_12))
@@ -2074,7 +2694,7 @@ FUNC_LIST[45] = --[[ _ZN4core3fmt5write17hdf060125a23f37a7E ]] function(loc_0, l
 		::continue_at_15::
 		loc_11 = shl_i32(loc_7, 3)
 		loc_11 = add_i32(loc_9, loc_11)
-		if load_i32(memory_at_0, loc_11 + 4) ~= 19 then
+		if load_i32(memory_at_0, loc_11 + 4) ~= 26 then
 			goto continue_at_13
 		end
 		loc_7 = load_i32(memory_at_0, load_i32(memory_at_0, loc_11))
@@ -2114,15 +2734,44 @@ FUNC_LIST[45] = --[[ _ZN4core3fmt5write17hdf060125a23f37a7E ]] function(loc_0, l
 	reg_0 = loc_1
 	return reg_0
 end
-FUNC_LIST[46] = --[[ _ZN36_$LT$T$u20$as$u20$core..any..Any$GT$7type_id17h0d548fa5db020ac4E ]] function(loc_0, loc_1)
+FUNC_LIST[58] = --[[ _ZN36_$LT$T$u20$as$u20$core..any..Any$GT$7type_id17h0d548fa5db020ac4E ]] function(loc_0, loc_1)
 	store_i64(memory_at_0, loc_0 + 8, 4363014821963114893)
 	store_i64(memory_at_0, loc_0, -354935419601612971)
 end
-FUNC_LIST[47] = --[[ _ZN4core6option13unwrap_failed17hb5bacfb0dd292085E ]] function(loc_0)
-	FUNC_LIST[43](1048928, 43, loc_0)
+FUNC_LIST[59] = --[[ _ZN4core6result13unwrap_failed17h8c7a47192e7f0267E ]] function(loc_0, loc_1, loc_2, loc_3, loc_4)
+	local loc_5 = 0
+	loc_5 = sub_i32(GLOBAL_LIST[0].value, 64)
+	GLOBAL_LIST[0].value = loc_5
+	store_i32(memory_at_0, loc_5 + 12, loc_1)
+	store_i32(memory_at_0, loc_5 + 8, loc_0)
+	store_i32(memory_at_0, loc_5 + 20, loc_3)
+	store_i32(memory_at_0, loc_5 + 16, loc_2)
+	store_i32(memory_at_0, add_i32(loc_5, 60), 27)
+	store_i32(memory_at_0, loc_5 + 28, 2)
+	store_i32(memory_at_0, loc_5 + 24, 1049244)
+	store_i64(memory_at_0, loc_5 + 36, 2)
+	store_i32(memory_at_0, loc_5 + 52, 28)
+	store_i32(memory_at_0, loc_5 + 32, add_i32(loc_5, 48))
+	store_i32(memory_at_0, loc_5 + 56, add_i32(loc_5, 16))
+	store_i32(memory_at_0, loc_5 + 48, add_i32(loc_5, 8))
+	FUNC_LIST[52](add_i32(loc_5, 24), loc_4)
 	error("out of code bounds")
 end
-FUNC_LIST[48] = --[[ _ZN4core3fmt9Formatter12pad_integral17h30e85005abd9cc2aE ]] function(loc_0, loc_1, loc_2, loc_3, loc_4, loc_5)
+FUNC_LIST[60] = --[[ _ZN4core6option13unwrap_failed17hb5bacfb0dd292085E ]] function(loc_0)
+	FUNC_LIST[55](1049112, 43, loc_0)
+	error("out of code bounds")
+end
+FUNC_LIST[61] = --[[ _ZN44_$LT$$RF$T$u20$as$u20$core..fmt..Display$GT$3fmt17h554f73b4470a626cE ]] function(loc_0, loc_1)
+	local reg_0
+	reg_0 = FUNC_LIST[54](loc_1, load_i32(memory_at_0, loc_0), load_i32(memory_at_0, loc_0 + 4))
+	return reg_0
+end
+FUNC_LIST[62] = --[[ _ZN42_$LT$$RF$T$u20$as$u20$core..fmt..Debug$GT$3fmt17h924a1cd8780eceefE ]] function(loc_0, loc_1)
+	local reg_0
+	reg_0 = TABLE_LIST[0].data[load_i32(memory_at_0, load_i32(memory_at_0, loc_0 + 4) + 12)](load_i32(memory_at_0, loc_0), loc_1)
+	return reg_0
+end
+FUNC_LIST[63] = --[[ _ZN4core3fmt9Formatter12pad_integral17h30e85005abd9cc2aE ]] function(loc_0, loc_1, loc_2, loc_3, loc_4, loc_5)
 	local loc_6 = 0
 	local loc_7 = 0
 	local loc_8 = 0
@@ -2154,7 +2803,7 @@ FUNC_LIST[48] = --[[ _ZN4core3fmt9Formatter12pad_integral17h30e85005abd9cc2aE ]]
 	if lt_u32(loc_3, 16) then
 		goto continue_at_6
 	end
-	reg_0 = FUNC_LIST[49](loc_2, loc_3)
+	reg_0 = FUNC_LIST[64](loc_2, loc_3)
 	loc_1 = reg_0
 	goto continue_at_5
 	::continue_at_6::
@@ -2209,7 +2858,7 @@ FUNC_LIST[48] = --[[ _ZN4core3fmt9Formatter12pad_integral17h30e85005abd9cc2aE ]]
 	loc_1 = 1
 	loc_12 = load_i32(memory_at_0, loc_0 + 20)
 	loc_10 = load_i32(memory_at_0, loc_0 + 24)
-	reg_0 = FUNC_LIST[50](loc_12, loc_10, loc_8, loc_2, loc_3)
+	reg_0 = FUNC_LIST[65](loc_12, loc_10, loc_8, loc_2, loc_3)
 	if reg_0 ~= 0 then
 		goto continue_at_12
 	end
@@ -2223,7 +2872,7 @@ FUNC_LIST[48] = --[[ _ZN4core3fmt9Formatter12pad_integral17h30e85005abd9cc2aE ]]
 	loc_1 = 1
 	loc_12 = load_i32(memory_at_0, loc_0 + 20)
 	loc_10 = load_i32(memory_at_0, loc_0 + 24)
-	reg_0 = FUNC_LIST[50](loc_12, loc_10, loc_8, loc_2, loc_3)
+	reg_0 = FUNC_LIST[65](loc_12, loc_10, loc_8, loc_2, loc_3)
 	if reg_0 ~= 0 then
 		goto continue_at_12
 	end
@@ -2240,7 +2889,7 @@ FUNC_LIST[48] = --[[ _ZN4core3fmt9Formatter12pad_integral17h30e85005abd9cc2aE ]]
 	store_i32_n8(memory_at_0, loc_0 + 32, 1)
 	loc_12 = load_i32(memory_at_0, loc_0 + 20)
 	loc_10 = load_i32(memory_at_0, loc_0 + 24)
-	reg_0 = FUNC_LIST[50](loc_12, loc_10, loc_8, loc_2, loc_3)
+	reg_0 = FUNC_LIST[65](loc_12, loc_10, loc_8, loc_2, loc_3)
 	if reg_0 ~= 0 then
 		goto continue_at_12
 	end
@@ -2313,7 +2962,7 @@ FUNC_LIST[48] = --[[ _ZN4core3fmt9Formatter12pad_integral17h30e85005abd9cc2aE ]]
 	goto continue_at_0
 	::continue_at_21::
 	loc_1 = 1
-	reg_0 = FUNC_LIST[50](loc_10, loc_12, loc_8, loc_2, loc_3)
+	reg_0 = FUNC_LIST[65](loc_10, loc_12, loc_8, loc_2, loc_3)
 	if reg_0 ~= 0 then
 		goto continue_at_12
 	end
@@ -2344,7 +2993,7 @@ FUNC_LIST[48] = --[[ _ZN4core3fmt9Formatter12pad_integral17h30e85005abd9cc2aE ]]
 	::continue_at_0::
 	return reg_0
 end
-FUNC_LIST[49] = --[[ _ZN4core3str5count14do_count_chars17haa0463a68be40a59E ]] function(loc_0, loc_1)
+FUNC_LIST[64] = --[[ _ZN4core3str5count14do_count_chars17haa0463a68be40a59E ]] function(loc_0, loc_1)
 	local loc_2 = 0
 	local loc_3 = 0
 	local loc_4 = 0
@@ -2529,7 +3178,7 @@ FUNC_LIST[49] = --[[ _ZN4core3str5count14do_count_chars17haa0463a68be40a59E ]] f
 	::continue_at_0::
 	return reg_0
 end
-FUNC_LIST[50] = --[[ _ZN4core3fmt9Formatter12pad_integral12write_prefix17hef988c9f737e47ffE ]] function(loc_0, loc_1, loc_2, loc_3, loc_4)
+FUNC_LIST[65] = --[[ _ZN4core3fmt9Formatter12pad_integral12write_prefix17hef988c9f737e47ffE ]] function(loc_0, loc_1, loc_2, loc_3, loc_4)
 	local loc_5 = 0
 	local reg_0
 	if loc_2 == 1114112 then
@@ -2553,7 +3202,12 @@ FUNC_LIST[50] = --[[ _ZN4core3fmt9Formatter12pad_integral12write_prefix17hef988c
 	::continue_at_0::
 	return reg_0
 end
-FUNC_LIST[51] = --[[ _ZN4core3fmt3num3imp7fmt_u6417h1b9613c9751540e8E ]] function(loc_0, loc_1, loc_2)
+FUNC_LIST[66] = --[[ _ZN4core3fmt9Formatter9write_str17h830903025a4a76ccE ]] function(loc_0, loc_1, loc_2)
+	local reg_0
+	reg_0 = TABLE_LIST[0].data[load_i32(memory_at_0, load_i32(memory_at_0, loc_0 + 24) + 12)](load_i32(memory_at_0, loc_0 + 20), loc_1, loc_2)
+	return reg_0
+end
+FUNC_LIST[67] = --[[ _ZN4core3fmt3num3imp7fmt_u6417h1b9613c9751540e8E ]] function(loc_0, loc_1, loc_2)
 	local loc_3 = 0
 	local loc_4 = 0
 	local loc_5 = 0
@@ -2578,8 +3232,8 @@ FUNC_LIST[51] = --[[ _ZN4core3fmt3num3imp7fmt_u6417h1b9613c9751540e8E ]] functio
 		loc_5 = div_u64(loc_0, 10000)
 		loc_7 = wrap_i32_i64((loc_0 - (loc_5 * 10000)))
 		loc_8 = div_u32(band_i32(loc_7, 65535), 100)
-		store_i32_n16(memory_at_0, add_i32(loc_6, -4), load_i32_u16(memory_at_0, add_i32(shl_i32(loc_8, 1), 1049056)))
-		store_i32_n16(memory_at_0, add_i32(loc_6, -2), load_i32_u16(memory_at_0, add_i32(shl_i32(band_i32(sub_i32(loc_7, mul_i32(loc_8, 100)), 65535), 1), 1049056)))
+		store_i32_n16(memory_at_0, add_i32(loc_6, -4), load_i32_u16(memory_at_0, add_i32(shl_i32(loc_8, 1), 1049260)))
+		store_i32_n16(memory_at_0, add_i32(loc_6, -2), load_i32_u16(memory_at_0, add_i32(shl_i32(band_i32(sub_i32(loc_7, mul_i32(loc_8, 100)), 65535), 1), 1049260)))
 		loc_4 = add_i32(loc_4, -4)
 		loc_6 = (gt_u64(loc_0, 99999999) and 1 or 0)
 		loc_0 = loc_5
@@ -2597,25 +3251,33 @@ FUNC_LIST[51] = --[[ _ZN4core3fmt3num3imp7fmt_u6417h1b9613c9751540e8E ]] functio
 	loc_6 = wrap_i32_i64(loc_5)
 	reg_1 = loc_6
 	loc_6 = div_u32(band_i32(loc_6, 65535), 100)
-	store_i32_n16(memory_at_0, add_i32(add_i32(loc_3, 9), loc_4), load_i32_u16(memory_at_0, add_i32(shl_i32(band_i32(sub_i32(reg_1, mul_i32(loc_6, 100)), 65535), 1), 1049056)))
+	store_i32_n16(memory_at_0, add_i32(add_i32(loc_3, 9), loc_4), load_i32_u16(memory_at_0, add_i32(shl_i32(band_i32(sub_i32(reg_1, mul_i32(loc_6, 100)), 65535), 1), 1049260)))
 	::continue_at_4::
 	if lt_u32(loc_6, 10) then
 		goto continue_at_6
 	end
 	loc_4 = add_i32(loc_4, -2)
-	store_i32_n16(memory_at_0, add_i32(add_i32(loc_3, 9), loc_4), load_i32_u16(memory_at_0, add_i32(shl_i32(loc_6, 1), 1049056)))
+	store_i32_n16(memory_at_0, add_i32(add_i32(loc_3, 9), loc_4), load_i32_u16(memory_at_0, add_i32(shl_i32(loc_6, 1), 1049260)))
 	goto continue_at_5
 	::continue_at_6::
 	loc_4 = add_i32(loc_4, -1)
 	store_i32_n8(memory_at_0, add_i32(add_i32(loc_3, 9), loc_4), bor_i32(loc_6, 48))
 	::continue_at_5::
-	reg_0 = FUNC_LIST[48](loc_2, loc_1, 1048928, 0, add_i32(add_i32(loc_3, 9), loc_4), sub_i32(39, loc_4))
+	reg_0 = FUNC_LIST[63](loc_2, loc_1, 1049112, 0, add_i32(add_i32(loc_3, 9), loc_4), sub_i32(39, loc_4))
 	loc_4 = reg_0
 	GLOBAL_LIST[0].value = add_i32(loc_3, 48)
 	reg_0 = loc_4
 	return reg_0
 end
-FUNC_LIST[52] = --[[ _ZN17compiler_builtins3mem6memcpy17h310372e6d7191176E ]] function(loc_0, loc_1, loc_2)
+FUNC_LIST[68] = --[[ _ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$i32$GT$3fmt17h43748b9d7873c125E ]] function(loc_0, loc_1)
+	local loc_2 = 0
+	local reg_0
+	loc_0 = load_i32(memory_at_0, loc_0)
+	loc_2 = shr_i32(loc_0, 31)
+	reg_0 = FUNC_LIST[67](extend_i64_u32(sub_i32(bxor_i32(loc_0, loc_2), loc_2)), shr_u32(bxor_i32(loc_0, -1), 31), loc_1)
+	return reg_0
+end
+FUNC_LIST[69] = --[[ _ZN17compiler_builtins3mem6memcpy17h310372e6d7191176E ]] function(loc_0, loc_1, loc_2)
 	local loc_3 = 0
 	local loc_4 = 0
 	local loc_5 = 0
@@ -2715,24 +3377,24 @@ FUNC_LIST[52] = --[[ _ZN17compiler_builtins3mem6memcpy17h310372e6d7191176E ]] fu
 	reg_0 = loc_0
 	return reg_0
 end
-FUNC_LIST[53] = --[[ memcpy ]] function(loc_0, loc_1, loc_2)
+FUNC_LIST[70] = --[[ memcpy ]] function(loc_0, loc_1, loc_2)
 	local reg_0
-	reg_0 = FUNC_LIST[52](loc_0, loc_1, loc_2)
+	reg_0 = FUNC_LIST[69](loc_0, loc_1, loc_2)
 	return reg_0
 end
 local function run_init_code()
-	TABLE_LIST[0] = { min = 22, max = 22, data = {} }
+	TABLE_LIST[0] = { min = 31, max = 31, data = {} }
 	MEMORY_LIST[0] = rt.allocator.new(17, 65535)
 	GLOBAL_LIST[0] = { value = 1048576 }
-	GLOBAL_LIST[1] = { value = 1050313 }
-	GLOBAL_LIST[2] = { value = 1050320 }
+	GLOBAL_LIST[1] = { value = 1050517 }
+	GLOBAL_LIST[2] = { value = 1050528 }
 	do
 		local target = TABLE_LIST[0].data
 		local offset = 1
-		local data = { FUNC_LIST[7],FUNC_LIST[9],FUNC_LIST[44],FUNC_LIST[27],FUNC_LIST[19],FUNC_LIST[23],FUNC_LIST[21],FUNC_LIST[16],FUNC_LIST[13],FUNC_LIST[17],FUNC_LIST[14],FUNC_LIST[31],FUNC_LIST[32],FUNC_LIST[20],FUNC_LIST[29],FUNC_LIST[30],FUNC_LIST[18],FUNC_LIST[12],FUNC_LIST[39],FUNC_LIST[40],FUNC_LIST[46], }
+		local data = { FUNC_LIST[68],FUNC_LIST[7],FUNC_LIST[9],FUNC_LIST[56],FUNC_LIST[27],FUNC_LIST[19],FUNC_LIST[23],FUNC_LIST[21],FUNC_LIST[16],FUNC_LIST[13],FUNC_LIST[17],FUNC_LIST[14],FUNC_LIST[31],FUNC_LIST[32],FUNC_LIST[20],FUNC_LIST[29],FUNC_LIST[30],FUNC_LIST[18],FUNC_LIST[12],FUNC_LIST[39],FUNC_LIST[48],FUNC_LIST[49],FUNC_LIST[37],FUNC_LIST[38],FUNC_LIST[40],FUNC_LIST[50],FUNC_LIST[62],FUNC_LIST[61],FUNC_LIST[51],FUNC_LIST[58], }
 		table_move(data, 1, #data, offset, target)
 	end
-	rt.store.string(MEMORY_LIST[0], 1048576,"Hello!src\\lib.rs\x06\x00\x10\x00\n\x00\x00\x00\r\x00\x00\x00\x10\x00\x00\x00\x05\x00\x00\x00\x0c\x00\x00\x00\x04\x00\x00\x00\x06\x00\x00\x00\x07\x00\x00\x00\x08\x00\x00\x00memory allocation of  bytes failed\x00\x008\x00\x10\x00\x15\x00\x00\x00M\x00\x10\x00\r\x00\x00\x00library/std/src/alloc.rsl\x00\x10\x00\x18\x00\x00\x00b\x01\x00\x00\t\x00\x00\x00library/std/src/panicking.rs\x94\x00\x10\x00\x1c\x00\x00\x00\x84\x02\x00\x00\x1e\x00\x00\x00\x05\x00\x00\x00\x0c\x00\x00\x00\x04\x00\x00\x00\t\x00\x00\x00\n\x00\x00\x00\x08\x00\x00\x00\x04\x00\x00\x00\x0b\x00\x00\x00\n\x00\x00\x00\x08\x00\x00\x00\x04\x00\x00\x00\x0c\x00\x00\x00\r\x00\x00\x00\x0e\x00\x00\x00\x10\x00\x00\x00\x04\x00\x00\x00\x0f\x00\x00\x00\x10\x00\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x12\x00\x00\x00capacity overflow\x00\x00\x00\x18\x01\x10\x00\x11\x00\x00\x00library/alloc/src/raw_vec.rs4\x01\x10\x00\x1c\x00\x00\x00\x19\x00\x00\x00\x05\x00\x00\x00called `Option::unwrap()` on a `None` value\x00\x14\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x15\x00\x00\x00index out of bounds: the len is  but the index is \x00\x00\x9c\x01\x10\x00 \x00\x00\x00\xbc\x01\x10\x00\x12\x00\x00\x0000010203040506070809101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899")
+	rt.store.string(MEMORY_LIST[0], 1048576,"Argument was  and it is awesome.\x00\x00\x10\x00\r\x00\x00\x00\r\x00\x10\x00\x13\x00\x00\x00src\\lib.rs\x00\x000\x00\x10\x00\n\x00\x00\x00\r\x00\x00\x00\x10\x00\x00\x00\x06\x00\x00\x00\x0c\x00\x00\x00\x04\x00\x00\x00\x07\x00\x00\x00\x08\x00\x00\x00\t\x00\x00\x00memory allocation of  bytes failed\x00\x00d\x00\x10\x00\x15\x00\x00\x00y\x00\x10\x00\r\x00\x00\x00library/std/src/alloc.rs\x98\x00\x10\x00\x18\x00\x00\x00b\x01\x00\x00\t\x00\x00\x00library/std/src/panicking.rs\xc0\x00\x10\x00\x1c\x00\x00\x00\x84\x02\x00\x00\x1e\x00\x00\x00\x06\x00\x00\x00\x0c\x00\x00\x00\x04\x00\x00\x00\n\x00\x00\x00\x0b\x00\x00\x00\x08\x00\x00\x00\x04\x00\x00\x00\x0c\x00\x00\x00\x0b\x00\x00\x00\x08\x00\x00\x00\x04\x00\x00\x00\r\x00\x00\x00\x0e\x00\x00\x00\x0f\x00\x00\x00\x10\x00\x00\x00\x04\x00\x00\x00\x10\x00\x00\x00\x11\x00\x00\x00\x12\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x13\x00\x00\x00Error\x00\x00\x00\x14\x00\x00\x00\x0c\x00\x00\x00\x04\x00\x00\x00\x15\x00\x00\x00\x16\x00\x00\x00\x17\x00\x00\x00capacity overflow\x00\x00\x00d\x01\x10\x00\x11\x00\x00\x00library/alloc/src/raw_vec.rs\x80\x01\x10\x00\x1c\x00\x00\x00\x19\x00\x00\x00\x05\x00\x00\x00a formatting trait implementation returned an error\x00\x18\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x19\x00\x00\x00library/alloc/src/fmt.rs\xf0\x01\x10\x00\x18\x00\x00\x00y\x02\x00\x00 \x00\x00\x00called `Option::unwrap()` on a `None` value\x00\x1d\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x1e\x00\x00\x00index out of bounds: the len is  but the index is \x00\x00T\x02\x10\x00 \x00\x00\x00t\x02\x10\x00\x12\x00\x00\x00: \x00\x00\x18\x02\x10\x00\x00\x00\x00\x00\x98\x02\x10\x00\x02\x00\x00\x0000010203040506070809101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899")
 end
 return function(wasm)
 	FUNC_LIST[0] = wasm["wasmtorio_game_script"].func_list["print"]

@@ -8,8 +8,8 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[no_mangle]
 pub fn add_five_i32(number: i32) -> i32 {
-    // let text = format!("Argument was {number} and it is awesome.");
-    let text = "Hello!";
+    let text = &format!("Argument was {number} and it is awesome.");
+    // let text = "Hello!";
     let byte = text.as_bytes()[number as usize] as i32;
     Script::print(text);
     number + byte
