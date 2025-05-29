@@ -3,6 +3,9 @@ mod wasmtorio_helpers;
 
 use wasmtorio_api::Script;
 
+#[global_allocator]
+static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+
 #[no_mangle]
 pub fn add_five_i32(number: i32) -> i32 {
     // let text = format!("Argument was {number} and it is awesome.");
