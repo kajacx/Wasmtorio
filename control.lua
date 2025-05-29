@@ -15,7 +15,7 @@ local add_five_i32 = module.func_list.add_five_i32;
 
 script.on_event(defines.events.on_player_selected_area, function(event)
     game.print(
-        "Control.lua start, ANSWER: " .. add_five_i32(2),
+        "Control.lua start, ANSWER: " .. add_five_i32(1) .. " and " .. add_five_i32(3),
         { skip = defines.print_skip.never }
     )
     -- game.print(string.pack)
