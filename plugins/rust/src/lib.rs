@@ -4,11 +4,12 @@ mod wasmtorio_helpers;
 use wasmtorio_api::Script;
 
 #[global_allocator]
-static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+// static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+static ALLOC: power_allocator::PowerAllocator = power_allocator::PowerAllocator::new();
 
 #[no_mangle]
 pub fn add_five_i32(number: i32) -> i32 {
-    let text = &format!("Argument was {number} and it is awesome.");
+    let text = &format!("Argument was {number} and it is very awesome.");
     // let text = "Hello!";
     let byte = text.as_bytes()[number as usize] as i32;
     Script::print(text);

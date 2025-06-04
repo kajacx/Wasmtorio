@@ -8,3 +8,4 @@ crate-type = ["cdylib"]
 
 [dependencies]
 wee_alloc = { "version" = "0.4" }
+power-allocator = { "path" = "E:/Programming/Rust/power-allocator" }
